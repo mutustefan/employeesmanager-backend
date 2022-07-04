@@ -1,6 +1,7 @@
 package com.example.employeemanager.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 @Entity
@@ -9,25 +10,31 @@ public class Employee implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
+    @Size(min = 3, max = 20, message = "Name length is incorrect 3 - 20")
     private String name;
+    @Email(message = "invalid email")
     private String email;
+    @NotBlank(message = "job title should not be blank")
     private String jobTitle;
+    @NotBlank(message = "phone should not be blank")
     private String phone;
+    @NotBlank(message = "image URL should not be blank")
     private String imageURL;
-    @Column(nullable = false, updatable = false)
-    private String employeeCode;
+    @OneToOne(cascade = CascadeType.ALL)
+  //  @JoinColumn(name = "personal_information_id")
+    private EmployeePersonalInformation personalInformation;
 
     public Employee() {
     }
 
-    public Employee(Long id, String name, String email, String jobTitle, String phone, String imageURL, String employeeCode) {
+    public Employee(Long id, String name, String email, String jobTitle, String phone, String imageURL, EmployeePersonalInformation personalInformation) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.jobTitle = jobTitle;
         this.phone = phone;
         this.imageURL = imageURL;
-        this.employeeCode = employeeCode;
+        this.personalInformation = personalInformation;
     }
 
     public Long getId() {
@@ -78,12 +85,12 @@ public class Employee implements Serializable {
         this.imageURL = imageURL;
     }
 
-    public String getEmployeeCode() {
-        return employeeCode;
+    public EmployeePersonalInformation getPersonalInformation() {
+        return personalInformation;
     }
 
-    public void setEmployeeCode(String employeeCode) {
-        this.employeeCode = employeeCode;
+    public void setPersonalInformation(EmployeePersonalInformation personalInformation) {
+        this.personalInformation = personalInformation;
     }
 
     @Override
@@ -95,7 +102,7 @@ public class Employee implements Serializable {
                 ", jobTitle='" + jobTitle + '\'' +
                 ", phone='" + phone + '\'' +
                 ", imageURL='" + imageURL + '\'' +
-                ", employeeCode='" + employeeCode + '\'' +
+                ", personalInformation=" + personalInformation +
                 '}';
     }
 }

@@ -5,12 +5,8 @@ import com.example.employeemanager.model.Employee;
 import com.example.employeemanager.repo.EmployeeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 
@@ -24,7 +20,6 @@ public class EmployeeService {
 
 
     public Employee addEmployee(Employee employee){
-        employee.setEmployeeCode(UUID.randomUUID().toString());
         return employeeRepo.save(employee);
     }
 
